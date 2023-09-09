@@ -4,9 +4,10 @@ import vhost from "vhost";
 const app = express();
 
 app.use((req, res, next) => {
-  const subdomain = req.headers.host.split(".")[0];
-  console.log("subdomain", subdomain);
-  if (!subdomain.includes("localhost")) {
+  let subdomain = req.hostname.includes(".")
+    ? req.hostname.split(".")[0]
+    : false;
+  if (subdomain) {
     // Render a response based on the subdomain
     res.send(`Hello from subdomain: ${subdomain}`);
   } else {
